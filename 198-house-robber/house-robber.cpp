@@ -1,22 +1,18 @@
 class Solution {
 public:
-    int rob(vector<int>& arr) {
-        int n=arr.size();
-        if(n==1)return arr[0];
-       // vector<int>dp(n);
-        int prev1=arr[0];
-        int prev2=0;
-        // dp[0]=arr[0];
-        // dp[1]=max(arr[0],arr[1]);
-        for(int i=1;i<n;i++){
-            
-            int a=arr[i];
-            if(i>1)a+=prev2;
-            int b=prev1;
-           int curr=max(a,b);
-            prev2=prev1;
-            prev1=curr;
-        }
-        return prev1;
+    int helper(int ind, vector<int>&nums, vector<int>&dp){
+        if(ind == 0)return dp[ind]=nums[ind];
+        if(ind<0)return 0;
+
+        if(dp[ind]!=-1)return dp[ind];
+
+        int pick = nums[ind] + helper(ind-2,nums,dp);
+        int notpick = 0 + helper(ind-1,nums,dp);
+        return dp[ind]=max(pick,notpick);
+    }
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        vector<int>dp(n,-1);
+        return helper(n-1,nums,dp);
     }
 };
