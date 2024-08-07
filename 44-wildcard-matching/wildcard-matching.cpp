@@ -23,7 +23,38 @@ public:
     bool isMatch(string s, string p) {
         int n = p.size();
         int m = s.size();
-        vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
-        return helper(p,s,n,m,dp);
+        //vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
+        vector<vector<bool>>dp(n+1,vector<bool>(m+1,false));
+        dp[0][0]=true;
+        for(int i=1;i<=m;i++){
+            dp[0][i]=false;
+        }
+        for(int i=1;i<n+1;i++){
+            bool flag=true;
+              for(int k=1;k<=i;k++){
+                if(p[k-1]!='*'){flag=false;
+                                break;
+                 }
+            }
+            
+            dp[i][0]=flag;
+             // dp[i][0] = dp[i-1][0] && (s[i-1] == '*');
+        }
+        for(int i=1;i<n+1;i++){
+            for(int j=1;j<m+1;j++){
+                if(p[i-1]==s[j-1]||p[i-1]=='?'){
+                    dp[i][j]=dp[i-1][j-1];
+                }
+                else if(p[i-1]=='*'){
+                    dp[i][j]=dp[i-1][j]||dp[i][j-1];
+                }
+                else{
+                    dp[i][j]=false;
+                }
+            }
+        }
+        // return solve(s,p,n,m,dp);
+    return dp[n][m];
+        //return helper(p,s,n,m,dp);
     }
 };
