@@ -2,7 +2,7 @@ class Solution {
 public:
     int helper(vector<int>&nums,int mid){
         int studentPage=0;
-        int student=0;
+        int student=1;
         for(auto it :nums){
             if(studentPage+it<=mid){
                 studentPage+=it;
@@ -26,7 +26,7 @@ public:
         int low = maxi,high =sum;
         while(low<=high){
             int mid  = low +(high-low)/2;
-            if(helper(nums,mid)>=k){
+            if(helper(nums,mid)>k){
                 low=mid+1;
             }else{
                 high = mid-1;
